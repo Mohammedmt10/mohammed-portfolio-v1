@@ -1,8 +1,7 @@
 "use server";
 
-import nodemailer from "nodemailer";
 import { after } from "next/server";
-import { logSimulatedEmail, logError } from "@/components/logger";
+import { logError } from "@/components/logger";
 
 interface ContactFormData {
   name: string;
@@ -43,78 +42,61 @@ export async function sendContactEmail(prevState: any, formData: FormData) {
 
   const recipientEmail = "mtajir903@gmail.com";
 
-  // Check if SMTP environment variables are configured
-  const host = process.env.SMTP_HOST;
-  const port = process.env.SMTP_PORT;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
+  // Check if EmailJS environment variables are configured
+  const serviceId = process.env.EMAILJS_SERVICE_ID;
+  const templateId = process.env.EMAILJS_TEMPLATE_ID;
+  const publicKey = process.env.EMAILJS_PUBLIC_KEY;
+  const privateKey = process.env.EMAILJS_PRIVATE_KEY;
 
-  if (!host || !port || !user || !pass) {
-    // Simulated sending for testing & development
-    after(() => {
-      logSimulatedEmail(name, email, subject, message, recipientEmail);
-    });
-
-    // Simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-
+  if (!serviceId || !templateId || !publicKey) {
     return {
-      success: true,
-      message:
-        "Message received! (Demo Mode: Email simulated in server console)",
-      mock: true,
+      success: false,
+      message: "Email service is not configured. Please define EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, and EMAILJS_PUBLIC_KEY environment variables.",
     };
   }
 
   try {
-    const transporter = nodemailer.createTransport({
-      host,
-      port: parseInt(port, 10),
-      secure: process.env.SMTP_SECURE === "true" || port === "465",
-      auth: {
-        user,
-        pass,
+    const payload: Record<string, any> = {
+      service_id: serviceId,
+      template_id: templateId,
+      user_id: publicKey,
+      template_params: {
+        from_name: name,
+        from_email: email,
+        reply_to: email,
+        email: email, // matches {{email}} used in user's Reply To dashboard configuration
+        subject: subject,
+        message: message,
+        to_email: recipientEmail,
       },
-    });
-
-    const mailOptions = {
-      from: `"${name} via Portfolio" <${user}>`, // Standard way to bypass SMTP blocking of spoofed addresses
-      to: recipientEmail,
-      replyTo: email,
-      subject: `Portfolio Contact: ${subject}`,
-      text: `You received a new message from your portfolio contact form:\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}`,
-      html: `
-        <div style="background-color: #0c0c0e; color: #f4f4f5; font-family: sans-serif; padding: 24px; border-radius: 8px; max-width: 600px; margin: 0 auto; border: 1px solid #1f1f23;">
-          <h2 style="color: #a78bfa; border-bottom: 1px solid #1f1f23; padding-bottom: 12px; margin-top: 0;">New Contact Form Message</h2>
-          
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-            <tr>
-              <td style="padding: 6px 0; font-weight: bold; color: #a1a1aa; width: 100px;">Sender:</td>
-              <td style="padding: 6px 0; color: #f4f4f5;">${name}</td>
-            </tr>
-            <tr>
-              <td style="padding: 6px 0; font-weight: bold; color: #a1a1aa;">Email:</td>
-              <td style="padding: 6px 0;"><a href="mailto:${email}" style="color: #22d3ee; text-decoration: none;">${email}</a></td>
-            </tr>
-            <tr>
-              <td style="padding: 6px 0; font-weight: bold; color: #a1a1aa;">Subject:</td>
-              <td style="padding: 6px 0; color: #f4f4f5;">${subject}</td>
-            </tr>
-          </table>
-
-          <div style="background-color: #16161a; padding: 16px; border-radius: 6px; border: 1px solid #27272a; margin-top: 16px;">
-            <p style="margin: 0; font-weight: bold; color: #a1a1aa; margin-bottom: 8px; font-size: 0.9em;">Message:</p>
-            <p style="margin: 0; line-height: 1.6; white-space: pre-wrap; color: #e4e4e7;">${message}</p>
-          </div>
-          
-          <footer style="margin-top: 24px; border-top: 1px solid #1f1f23; padding-top: 12px; font-size: 0.8em; color: #71717a; text-align: center;">
-            This email was sent from your Next.js developer portfolio contact form.
-          </footer>
-        </div>
-      `,
     };
 
-    await transporter.sendMail(mailOptions);
+    if (privateKey) {
+      payload.accessToken = privateKey;
+    }
+
+    console.log("📬 [Server Action] Sending email payload to EmailJS...");
+    console.log("Service ID:", serviceId);
+    console.log("Template ID:", templateId);
+    console.log("Public Key:", publicKey);
+
+    const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    console.log("📬 [Server Action] EmailJS response status:", response.status);
+
+    if (!response.ok) {
+      const responseText = await response.text();
+      console.error("❌ [Server Action] EmailJS failed with error:", responseText);
+      throw new Error(`EmailJS server returned status ${response.status}: ${responseText}`);
+    }
+
+    console.log("✅ [Server Action] Email successfully sent!");
 
     return {
       success: true,
@@ -122,7 +104,7 @@ export async function sendContactEmail(prevState: any, formData: FormData) {
     };
   } catch (error) {
     after(() => {
-      logError("Nodemailer error: ", error);
+      logError("EmailJS error: ", error);
     });
     return {
       success: false,
@@ -131,3 +113,4 @@ export async function sendContactEmail(prevState: any, formData: FormData) {
     };
   }
 }
+
