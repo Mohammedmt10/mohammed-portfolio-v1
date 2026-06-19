@@ -13,7 +13,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = "https://mohammed-portfolio-v1.vercel.app/";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "") ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
+  "https://mohammed-portfolio-v1.vercel.app/";
 const siteDescription =
   "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.";
 const siteTitle = "Mohammed Tajir | Portfolio";
@@ -43,7 +49,7 @@ export const metadata: Metadata = {
     siteName: "Mohammed Tajir Portfolio",
     images: [
       {
-        url: "/images/meta-image.png",
+        url: "/images/meta-image-v2.png",
         width: 1200,
         height: 630,
         alt: "Mohammed Tajir | Portfolio",
@@ -56,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: ["/images/meta-image.png"],
+    images: ["/images/meta-image-v2.png"],
   },
   robots: {
     index: true,
