@@ -56,6 +56,14 @@ const PROJECTS = [
     link: "https://github.com/Mohammedmt10/multiplayer-excalidraw",
     status: "Completed",
   },
+  {
+    title: "AI Race Engineer",
+    description:
+      "A voice-activated, real-time AI race engineer designed specifically for RaceRoom Racing Experience. This project eliminates the need for distracting on-screen HUDs by allowing players to interact with their car's telemetry using natural voice commands.",
+    tech: ["Python", "Speech Recognition", "LLM / AI", "Telemetry API"],
+    link: "https://github.com/Mohammedmt10",
+    status: "Upcoming",
+  },
 ];
 
 const EXPERIENCES = [

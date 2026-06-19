@@ -11,12 +11,17 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ title, description, tech, link, status }: ProjectCardProps) {
+  const isUpcoming = status.toLowerCase() === "upcoming" || status.toLowerCase() === "future project";
+  const statusBadgeClass = isUpcoming
+    ? "text-amber-400 bg-amber-950/20 border-amber-800/30"
+    : "text-violet-400 bg-violet-950/20 border-violet-800/30";
+
   return (
     <Card>
       <div className="flex justify-between items-start gap-4">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <span className="text-[10px] font-semibold text-violet-400 uppercase tracking-widest bg-violet-950/20 px-2.5 py-0.5 rounded border border-violet-800/30">
+            <span className={`text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded border ${statusBadgeClass}`}>
               {status}
             </span>
           </div>
