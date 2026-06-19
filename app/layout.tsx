@@ -13,10 +13,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://mohammed-portfolio-v1.vercel.app/";
+const siteDescription =
+  "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.";
+const siteTitle = "Mohammed Tajir | Portfolio";
+
 export const metadata: Metadata = {
-  title: "Mohammed Tajir | Portfolio",
-  description:
-    "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.",
+  metadataBase: new URL(siteUrl),
+  title: siteTitle,
+  description: siteDescription,
   keywords: [
     "Mohammed Tajir",
     "Portfolio",
@@ -32,11 +37,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Mohammed Tajir" }],
   creator: "Mohammed Tajir",
   openGraph: {
-    title: "Mohammed Tajir | Portfolio",
-    description:
-      "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.",
-    type: "website",
-    locale: "en_US",
+    title: siteTitle,
+    description: siteDescription,
+    url: siteUrl,
     siteName: "Mohammed Tajir Portfolio",
     images: [
       {
@@ -46,13 +49,14 @@ export const metadata: Metadata = {
         alt: "Mohammed Tajir | Portfolio",
       },
     ],
+    locale: "en_US",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mohammed Tajir | Portfolio",
-    description:
-      "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.",
-    images: ["/meta-image.png"],
+    title: siteTitle,
+    description: siteDescription,
+    images: ["/images/meta-image.png"],
   },
   robots: {
     index: true,
