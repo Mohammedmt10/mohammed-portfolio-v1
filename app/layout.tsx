@@ -15,7 +15,32 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Mohammed Tajir | Portfolio",
-  description: "Full Stack Developer Intern Portfolio",
+  description: "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.",
+  keywords: [
+    "Mohammed Tajir",
+    "Portfolio",
+    "Full Stack Developer",
+    "Software Engineer",
+    "React Developer",
+    "Next.js Developer",
+    "TypeScript",
+    "PyTorch",
+    "Deep Learning",
+    "Web Developer Portfolio"
+  ],
+  authors: [{ name: "Mohammed Tajir" }],
+  creator: "Mohammed Tajir",
+  openGraph: {
+    title: "Mohammed Tajir | Portfolio",
+    description: "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.",
+    type: "website",
+    locale: "en_US",
+    siteName: "Mohammed Tajir Portfolio",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
