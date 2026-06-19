@@ -38,7 +38,7 @@ const PROJECTS = [
     description:
       "Designed and trained a custom autoregressive language model from scratch utilizing PyTorch, implementing advanced transformer architecture components including RMSNorm, Rotary Positional Embeddings (RoPE), and SwiGLU activations. Engineered Grouped Query Attention (GQA) with an 8:2 query-to-KV head ratio to optimize computation. Systematically resolved severe overfitting on Tiny Shakespeare by scaling down parameters to 2.7M.",
     tech: ["PyTorch", "Python", "Transformers", "GQA", "LLM"],
-    link: "https://github.com/Mohammed",
+    link: "https://colab.research.google.com/drive/1llwtMaS4y3vnlDOIP1-scs1sChTBERXH?usp=sharing",
     status: "Completed",
   },
   {
@@ -53,7 +53,7 @@ const PROJECTS = [
       "Turborepo",
       "Prisma",
     ],
-    link: "https://github.com/Mohammed",
+    link: "https://github.com/Mohammedmt10/multiplayer-excalidraw",
     status: "Completed",
   },
 ];
@@ -392,7 +392,7 @@ export default function Home() {
             Get in touch
           </Link>
           <a
-            href="https://github.com/Mohammed"
+            href="https://github.com/Mohammedmt10"
             target="_blank"
             rel="noreferrer"
             className="hover:text-zinc-200 transition-colors duration-300 flex items-center gap-2"
