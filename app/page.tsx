@@ -78,7 +78,14 @@ const EXPERIENCES = [
       "Engineered interactive frontend prototypes and successfully transitioned them into production-ready UI.",
       "Architected modular, scalable logic to replace legacy systems, establishing a clean codebase to facilitate a seamless future migration to Next.js and TypeScript.",
     ],
-    tech: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Accessibility"],
+    tech: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Express",
+      "MongoDB",
+      "PostgreSQL",
+    ],
     wrapperClass:
       "border-violet-500/25 bg-violet-950/5 group-hover:border-violet-500/50 group-hover:bg-violet-950/15 group-hover:shadow-[0_0_35px_-5px_rgba(139,92,246,0.2)]",
     logoWrapperClass: "p-0 rounded-full overflow-hidden",
