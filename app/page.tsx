@@ -408,7 +408,7 @@ export default function Home() {
             GitHub
           </a>
           <a
-            href="https://linkedin.com/in/Mohammed"
+            href="https://www.linkedin.com/in/mohammed-tajir-b7120a245/"
             target="_blank"
             rel="noreferrer"
             className="hover:text-zinc-200 transition-colors duration-300 flex items-center gap-2"
