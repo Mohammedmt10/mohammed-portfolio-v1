@@ -36,6 +36,20 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "Mohammed Tajir Portfolio",
+    images: [
+      {
+        url: "/meta-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Mohammed Tajir | Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mohammed Tajir | Portfolio",
+    description: "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.",
+    images: ["/meta-image.png"],
   },
   robots: {
     index: true,
