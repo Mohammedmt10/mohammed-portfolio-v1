@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     siteName: "Mohammed Tajir Portfolio",
     images: [
       {
-        url: "/images/meta-image-v2.png",
+        url: "/images/meta-image-v1.png",
         width: 1200,
         height: 630,
         alt: "Mohammed Tajir | Portfolio",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: ["/images/meta-image-v2.png"],
+    images: ["/images/meta-image-v1.png"],
   },
   robots: {
     index: true,
