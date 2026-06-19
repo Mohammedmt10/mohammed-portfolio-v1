@@ -15,7 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Mohammed Tajir | Portfolio",
-  description: "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.",
+  description:
+    "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.",
   keywords: [
     "Mohammed Tajir",
     "Portfolio",
@@ -26,19 +27,20 @@ export const metadata: Metadata = {
     "TypeScript",
     "PyTorch",
     "Deep Learning",
-    "Web Developer Portfolio"
+    "Web Developer Portfolio",
   ],
   authors: [{ name: "Mohammed Tajir" }],
   creator: "Mohammed Tajir",
   openGraph: {
     title: "Mohammed Tajir | Portfolio",
-    description: "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.",
+    description:
+      "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.",
     type: "website",
     locale: "en_US",
     siteName: "Mohammed Tajir Portfolio",
     images: [
       {
-        url: "/meta-image.png",
+        url: "/images/meta-image.png",
         width: 1200,
         height: 630,
         alt: "Mohammed Tajir | Portfolio",
@@ -48,7 +50,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Mohammed Tajir | Portfolio",
-    description: "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.",
+    description:
+      "I design and build highly performant, accessible digital products and scalable web systems. Currently focused on full stack development and deep learning, building advanced transformer architectures and real-time synchronized platforms.",
     images: ["/meta-image.png"],
   },
   robots: {
@@ -68,7 +71,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-black text-zinc-100" suppressHydrationWarning>
+      <body
+        className="min-h-full flex flex-col bg-black text-zinc-100"
+        suppressHydrationWarning
+      >
         <LenisProvider>{children}</LenisProvider>
       </body>
     </html>
