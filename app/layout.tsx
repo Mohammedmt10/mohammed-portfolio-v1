@@ -28,6 +28,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: siteTitle,
   description: siteDescription,
+  verification: {
+    google: "VhK9lV79JelZTSDG5JNTBfudWHAX8ymsUW6a1o_iV2o",
+  },
   keywords: [
     "Mohammed Tajir",
     "Portfolio",
