@@ -1,14 +1,9 @@
 "use server";
 
 import { after } from "next/server";
+import { headers } from "next/headers";
 import { logError } from "@/components/logger";
-
-interface ContactFormData {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
+import { rateLimit } from "@/lib/rate-limit";
 
 async function verifyAuth() {
   // Genuinely public actions (like a contact form) do not require a user session.
@@ -16,8 +11,33 @@ async function verifyAuth() {
   return null;
 }
 
-export async function sendContactEmail(prevState: any, formData: FormData) {
+async function getClientIp(): Promise<string> {
+  const headerList = await headers();
+  const forwardedFor = headerList.get("x-forwarded-for");
+  if (forwardedFor) {
+    return forwardedFor.split(",")[0].trim();
+  }
+  const realIp = headerList.get("x-real-ip");
+  if (realIp) {
+    return realIp;
+  }
+  return "127.0.0.1";
+}
+
+export async function sendContactEmail(prevState: unknown, formData: FormData) {
   await verifyAuth();
+
+  // Basic IP-based rate limiting: Max 5 submissions per 10 minutes
+  const clientIp = await getClientIp();
+  const limitResult = rateLimit(clientIp, 5, 10 * 60 * 1000);
+
+  if (!limitResult.success) {
+    const minutesLeft = Math.ceil((limitResult.reset - Date.now()) / 1000 / 60);
+    return {
+      success: false,
+      message: `Too many submissions. Please try again in ${minutesLeft} minute${minutesLeft === 1 ? "" : "s"}.`,
+    };
+  }
 
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
@@ -29,6 +49,14 @@ export async function sendContactEmail(prevState: any, formData: FormData) {
     return {
       success: false,
       message: "Please fill in all required fields.",
+    };
+  }
+
+  // Input length limits to prevent oversized payloads
+  if (name.length > 100 || email.length > 254 || subject.length > 200 || message.length > 5000) {
+    return {
+      success: false,
+      message: "One or more fields exceed the maximum allowed length.",
     };
   }
 
@@ -56,7 +84,7 @@ export async function sendContactEmail(prevState: any, formData: FormData) {
   }
 
   try {
-    const payload: Record<string, any> = {
+    const payload: Record<string, unknown> = {
       service_id: serviceId,
       template_id: templateId,
       user_id: publicKey,
@@ -75,10 +103,7 @@ export async function sendContactEmail(prevState: any, formData: FormData) {
       payload.accessToken = privateKey;
     }
 
-    console.log("📬 [Server Action] Sending email payload to EmailJS...");
-    console.log("Service ID:", serviceId);
-    console.log("Template ID:", templateId);
-    console.log("Public Key:", publicKey);
+    console.log("📬 [Server Action] Sending email to EmailJS...");
 
     const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
       method: "POST",
@@ -108,8 +133,7 @@ export async function sendContactEmail(prevState: any, formData: FormData) {
     });
     return {
       success: false,
-      message: "Failed to send email. Server configuration issue.",
-      error: error instanceof Error ? error.message : String(error),
+      message: "Failed to send email. Please try again later.",
     };
   }
 }

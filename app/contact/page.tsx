@@ -1,18 +1,12 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import Link from "next/link";
 import { sendContactEmail } from "./actions";
 
 function ContactFormContainer({ onReset }: { onReset: () => void }) {
   const [state, formAction, isPending] = useActionState(sendContactEmail, null);
-  const [isSuccessView, setIsSuccessView] = useState(false);
-
-  useEffect(() => {
-    if (state?.success) {
-      setIsSuccessView(true);
-    }
-  }, [state]);
+  const isSuccessView = !!state?.success;
 
   if (isSuccessView) {
     return (
